@@ -1,6 +1,8 @@
 
-from flask import Flask, render_template, request, url_for, redirect, make_response, abort
+from flask import Flask
 app = Flask(__name__)
+
+from flask import render_template, request, url_for, redirect, make_response, abort
 
 @app.route('/')
 def home():
@@ -12,8 +14,8 @@ def home():
 #def instagram():    
 #    #from quantifi.lib.instagram.client import InstagramAPI
 
-#    client_id = '0ee5399e64144466a09d8165c9666c5c'
-#    client_secret = '2cd0f7399abf43c3ba6d460a8ed4bd75'
+#    client_id = 'XXX'
+#    client_secret = 'XX'
 #    
 ##  redirect_uri needs match what is registered online with the instagram API
 #    #redirect_uri = 'http://%s' % app.config['SITE_DOMAIN'] + url_for('instagram')   # for production environment
