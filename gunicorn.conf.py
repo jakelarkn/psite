@@ -1,5 +1,5 @@
 # Config file for gunicorn server
-bind = "173.255.241.157:80"
-#bind = 'unix:/tmp/gunicorn.sock'
+#bind = "173.255.241.157:80"
+bind = 'unix:/tmp/gunicorn.sock'
 
-workers = 2
+workers = 4
