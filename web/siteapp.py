@@ -3,7 +3,7 @@ from flask import Flask
 app = Flask(__name__)
 
 ##########
-app.debug = True
+app.debug = False
 
 
 from flask import render_template, request, url_for, redirect, make_response, abort
