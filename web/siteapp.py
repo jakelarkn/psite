@@ -2,98 +2,66 @@
 from flask import Flask
 app = Flask(__name__)
 
+##########
+app.debug = True
+
+
 from flask import render_template, request, url_for, redirect, make_response, abort
+import json
+from instagram.client import InstagramAPI
+
+import local_settings
 
 @app.route('/')
 def home():
-    return render_template("index.html")
+
+    from instagram.client import InstagramAPI
+
+    api = InstagramAPI(access_token=local_settings.INSTAGRAM_TOKEN)
+    feed = api.user_recent_media(count=15)
+    medias = feed[0]
+
+    return render_template("index.html", medias=medias)
 
 
 
-#@app.route("/instagram", methods=["GET","POST"])
-#def instagram():    
-#    #from quantifi.lib.instagram.client import InstagramAPI
+# used these in development to get the API token, nothing to see here
+if app.debug:
+    @app.route('/authorize-instagram')
+    def authorize_instagram():
+        from instagram import client
 
-#    client_id = 'XXX'
-#    client_secret = 'XX'
-#    
-##  redirect_uri needs match what is registered online with the instagram API
-#    #redirect_uri = 'http://%s' % app.config['SITE_DOMAIN'] + url_for('instagram')   # for production environment
-#    redirect_uri = 'http://localhost:5000/instagram'  # for dev environment
+        redirect_uri = 'http://127.0.0.1:5000/handle-instagram-authorization'
+        instagram_client = client.InstagramAPI(client_id=INSTAGRAM_CLIENT, client_secret=INSTAGRAM_SECRET, redirect_uri=redirect_uri)
+        return redirect(instagram_client.get_authorize_url(scope=['basic']))
 
-#    if 'code' in request.args:
 
-#        CODE = request.args['code']
+    @app.route('/handle-instagram-authorization')
+    def handle_instagram_authorization():
+        from instagram import client
 
-#        url = "https://api.instagram.com/oauth/access_token"
+        code = request.values.get('code')
+        if not code:
+            raise ValueError('Missing code')
+        try:
+            redirect_uri = 'http://127.0.0.1:5000/handle-instagram-authorization'
+            instagram_client = client.InstagramAPI(client_id=INSTAGRAM_CLIENT, client_secret=INSTAGRAM_SECRET, redirect_uri=redirect_uri)
+            access_token, instagram_user = instagram_client.exchange_code_for_access_token(code)
+            if not access_token:
+                raise ValueError('Could not get access token')
 
-#        data = {
-#            "client_id": client_id,
-#            "client_secret": client_secret,
-#            "redirect_uri": redirect_uri,
-#            "grant_type": "authorization_code",
-#            "code": CODE
-#        }        
-#        urlencoded_data = urllib.urlencode(data)
+            print "user id:"
+            print instagram_user['id']
+            print 'access_token'
+            print access_token
 
-#        http_object = Http(disable_ssl_certificate_validation=True)
-#        response, content = http_object.request(url, method="POST", body=urlencoded_data)
-#        parsed_content = json.loads(content)
-
-#        if int(response['status']) != 200:
-#            print "RESPONSE: %s" % response
-#            print "\n"
-#            print "CONTENT: %s" % content
-#            raise ValueError(parsed_content.get("message", ""))
-
-#        user_identifier = parsed_content["user"]["id"]
-#        access_token = parsed_content['access_token']
-#        
-
-#        oauth_click="https://api.instagram.com/oauth/authorize/?client_id={{client_id}}&redirect_uri={{redirect_uri}}&response_type=code"
-
-#        
-
-#        from pymongo.connection import Connection
-
-#        connection = Connection()
-#        db = connection.psite_db
-#        auths = db.auths
-
-#        new_auth = { api: "instagram",
-#            user_identifier : user_identifier,  # external api
-#            access_token: access_token }
-#        
-#        
-#        old_auth = auths.find_one({api: "instagram", username: fullname})
-#        
-#        if not old_auth:
-#            db.auths.save(new_auth)
-#        
-#        else:
-#            db.auths.update({"api":"instagram", "user_identifier": "user_identifier"}, {"$set": {"access_token": "access_token"}})
-#        
-#        
+            # deferred.defer(fetch_instagram_for_user, g.user.get_id(), count=20, _queue='instagram')
+        except Exception, e:
+            raise ValueError('Error')
+        return redirect('http://www.google.com')
 
 
 
-
-
-#        api = db.session.query(API).filter_by(name='instagram').first()
-
-#        api_connection = db.session.query(APIUserConnection).filter_by(api=api, user=current_user).first()
-#        if not api_connection:
-#            api_connection = APIUserConnection(user_identifier=user_identifier, user=current_user, api=api)
-#            db.session.add(api_connection)        
-#        api_connection.access_token = access_token
-
-#        db.session.commit()
-
-#        quantifi_app.sync_user(current_user, apis=[api.name])
-
-#        return redirect(url_for('settings'))            
-
-#    return render_template("api_connectors/instagram.html", client_id=client_id, redirect_uri=redirect_uri)
 
 if __name__ == '__main__':
     app.run()

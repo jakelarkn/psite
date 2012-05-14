@@ -22,7 +22,7 @@
     <script src="/static/js/application.js"></script>
     <script src="http://autobahn.tablesorter.com/jquery.tablesorter.min.js"></script>
     <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
-    
+
     <!-- fav and touch icons -->
     <link rel="shortcut icon" type="image/x-icon" href="/static/ico/favicon.ico">
     <link rel="apple-touch-icon" sizes="114x114" href="assets/ico/bootstrap-apple-114x114.png">
@@ -38,7 +38,7 @@
           <a class="brand" href="#"></a>
           <ul class="nav">
             <li class="active"><a href="#overview">Me</a></li>
-            <li><a href="#summary">Summary</a></li>           
+            <li><a href="#summary">Summary</a></li>
             <li><a href="#connect">Connect</a></li>
             <li><a href="#photos">Photos</a></li>
             <li><a href="#coursework">Coursework</a></li>
@@ -60,7 +60,7 @@
             Graduate Student in Computer Science & Engineering<br />
             Software Engineer and Web Developer<br />
           </p>
-         
+
         </div><!-- /container -->
       </div>
     </header>
@@ -74,7 +74,7 @@
     <h1>Summary <small>Who am I? What am I doing?</small></h1>
   </div>
   <div class="row">
-    
+
 <!--    <div class="span4">-->
 <!--      <a href="http://i.imgur.com/Hlk22">-->
 <!--        <img class="thumbnail" src="http://i.imgur.com/Hlk22.jpg" alt="hi there">-->
@@ -87,16 +87,16 @@
         <img class="thumbnail" src="/static/img/headshot3.jpg" alt="hi there">
       </a>
     </div>
-    
+
     <div class="span14">
       <p>
       Hi. I'm a Graduate Student in Computer Science and Engineering. I grew up in New York City but I've been in the Bay Area now for the better part of a decade. I completed my undergrad at Stanford Univeristy with a B.S. in Mathematics and Computational Science. I am passionate about C.S., applied math and techology and I am excited to work in world that's becoming increasingly data-driven. Currently, I am nearing completion of a Masters degree at in Computer Science and Engineering at Santa Clara University and I live in San Francisco.
       </p>
       <p>
-	  My academic interests span a broad range including Distributed Systems, Scalabity, Data Mining, Parallel Processing. I started programming in C/C++. My recent work has been primarily in Server-side (backend) programming in Python. In the future, I am looking to dive deeper into Java, mostly because of its performance characteristics at scale. On the client-side, my experience is in Web applications, but am looking learn Mobile as well.  
+       My academic interests span a broad range including Distributed Systems, Scalabity, Data Mining, Parallel Processing, Web Development. I started programming in C/C++. My recent work has been primarily in Server-side (backend) programming in Python, and work on the web front-end in Javascript, and HTML/CSS. I'm currently experimenting with Objective-C and iOS.
       </p>
       <p>
-	  Outside of work, I enjoy Running, Cycling, Hiking, Mountaineering, Skiing and Photography.
+	     Outside of work, I enjoy Running, Cycling, Hiking, Mountaineering, Skiing and Photography.
       </p>
       <p>
       This site is under development. I will be making it more dynamic over time.
@@ -105,7 +105,7 @@
 
 
   </div>
-  
+
 </section>
 
 
@@ -151,7 +151,7 @@
 <script type="IN/MemberProfile" data-id="http://www.linkedin.com/in/jakeokt" data-format="click" data-text="Jake Oktawiec"></script>
         </div>-->
 
-   
+
     </div>
     <div class="span12">
       <h4>Recent Updates</h4>
@@ -184,13 +184,49 @@
       }).render().setUser('tankm0de').start();
       </script>
 
-      
+
     </div>
-    
+
   </div>
 
 </section>
 
+{% if medias %}
+
+<!-- Photo Stream (instagram)
+================================================== -->
+<section id="photos">
+  <div class="page-header">
+    <h1>Photo Stream <small>Instagram API Example</small></h1>
+  </div>
+  <div class="row">
+    <div class="span16">
+    <ul class="media-grid">
+
+
+      {% for media in medias %}
+      <li>
+        <a href="{{ media.images['standard_resolution'].url }}">
+          <img class="thumbnail" src="{{ media.images['thumbnail'].url }}" title="{{ media.caption.text }}">
+        </a>
+      </li>
+      {% endfor %}
+
+
+<!--      <li>
+        <a href="#">
+          <img class="thumbnail" src="http://placehold.it/150x150" alt="">
+        </a>
+      </li>-->
+
+
+    </ul>
+    </div>
+  </div>
+
+</section>
+
+{% else %}
 
 
 <!-- Photo Stream (instagram)
@@ -233,12 +269,14 @@
         </a>
       </li>-->
 
-    
+
     </ul>
     </div>
   </div>
-  
+
 </section>
+
+{% endif %}
 
 <!-- Coursework
 ================================================== -->
@@ -249,15 +287,15 @@
   <div class="row">
     <div class="span16">
       <h4>Graduate</h4>
-      <div class="row">  
+      <div class="row">
         <div class="span4">
           <ul.unstyled>
             <li>Distributed Systems</li>
-            <li>Data Mining & AI</li>          
+            <li>Data Mining & AI</li>
             <li>Advanced Databases</li>
           </ul.unstyled>
         </div>
-        
+
         <div class="span4">
           <ul.unstyled>
             <li>Networking</li>
@@ -275,8 +313,8 @@
         </div>
 
 
-      </div>      
-    </div>       
+      </div>
+    </div>
   </div>
   <div class="row">
     <div class="span12">
@@ -289,7 +327,7 @@
             <li>Computation Theory</li>
           </ul.unstyled>
         </div>
-        
+
         <div class="span4">
           <ul.unstyled>
             <li>Discrete Mathematics</li>
@@ -309,7 +347,7 @@
   <div class="page-header">
     <h1>Skillset <small>I can make things?</small></h1>
   </div>
-  
+
   <div class="row">
     <div class="span14">
       <table>
@@ -317,9 +355,9 @@
           <tr>
             <th>Area</th>
             <th>Name</th>
-            <th>Notes</th>  
+            <th>Notes</th>
           </tr>
-        </thead>        
+        </thead>
         <tbody>
           <tr>
             <td rowspan="5" class="span6">Languages</td>
@@ -343,6 +381,10 @@
             <td>Statistical analysis language</td>
           </tr>
           <tr>
+            <td>iOS Objective-C</td>
+            <td>learning.. slowly</td>
+          </tr>
+          <tr>
             <td rowspan="3">Web Frameworks</td>
             <td>Flask</td>
             <td>Python Microframework developed by @mitsuhiko</td>
@@ -355,7 +397,7 @@
             <td>ASP.NET</td>
             <td></td>
           </tr>
-    
+
           <tr>
             <td rowspan="3">Other Tools/Libraries</td>
             <td>SQL Alchemy</td>
@@ -366,7 +408,7 @@
             <td>Distributed Task Queue - Asynchronous Scripting</td>
           </tr>
           <tr>
- 
+
             <td>Various REST APIs</td>
             <td>Twitter, LinkedIn, Facebook, Foursquare, Instagram</td>
           </tr>
@@ -387,9 +429,9 @@
           </tr>
         </tbody>
       </table>
-  
+
     </div>
-    
+
   </div>
 </section>
 
@@ -421,7 +463,7 @@
 </section>
 
 
-</br></br></br> 
+</br></br></br>
 
     </div><!-- /container -->
 
