@@ -1,27 +1,30 @@
 
-from flask import Flask
-app = Flask(__name__)
-
-##########
-app.debug = False
-
-
-from flask import render_template, request, url_for, redirect, make_response, abort
 import json
+
+from flask import Flask
+from flask import render_template, request, url_for, redirect, make_response, abort
+
 from instagram.client import InstagramAPI
+import readability
 
 import local_settings
+
+app = Flask(__name__)
+app.debug = local_settings.DEBUG_SET
 
 @app.route('/')
 def home():
 
-    from instagram.client import InstagramAPI
 
-    api = InstagramAPI(access_token=local_settings.INSTAGRAM_TOKEN)
-    feed = api.user_recent_media(count=15)
+    insta_api = InstagramAPI(access_token=local_settings.INSTAGRAM_TOKEN)
+    feed = insta_api.user_recent_media(count=15)
     medias = feed[0]
 
-    return render_template("index.html", medias=medias)
+    rdd_api = readability.oauth(local_settings.READABILITY_CLIENT_KEY, local_settings.READABILITY_CLIENT_SECRET, token=local_settings.READABILITY_USER_TOKEN)
+    bookmarks = rdd_api.get_bookmarks(limit=10)
+
+#    ['author', 'content', 'content_size', 'date_published', 'domain', 'excerpt', 'id', 'next_page_href', 'processed', 'short_url', 'title', 'url', 'word_count']
+    return render_template("index.html", medias=medias, bookmarks=bookmarks)
 
 
 

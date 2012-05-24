@@ -41,6 +41,7 @@
             <li><a href="#summary">Summary</a></li>
             <li><a href="#connect">Connect</a></li>
             <li><a href="#photos">Photos</a></li>
+            <li><a href="#reading">Reading</a></li>
             <li><a href="#coursework">Coursework</a></li>
             <li><a href="#skillset">Skillset</a></li>
             <li><a href="#contact">Contact</a></li>
@@ -277,6 +278,70 @@
 </section>
 
 {% endif %}
+
+
+
+
+{% if bookmarks %}
+
+<!-- Reading
+================================================== -->
+<section id="reading">
+  <div class="page-header">
+    <h1>Articles I'm Reading <small>Readability API</small></h1>
+  </div>
+
+
+  <div class="row">
+    <div class="span14 offset1">
+      <table>
+        <thead>
+          <tr>
+            <th>Article</th>
+            <th></th>
+            <th>Stats</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for bookmark in bookmarks %}
+            <tr>
+              <td class="span4">
+
+                <ul class="unstyled">
+                  <li><a href={{ bookmark.article.url }}><big>{{bookmark.article.title }}</big></a></li>
+                  <li>By {{bookmark.article.author}}</li>
+                  <li>On {{bookmark.article.domain}}</li>
+
+                </ul>
+
+              <td>
+                {{ bookmark.article.excerpt|safe }}
+              </td>
+              <td class="span6">
+                <ul class="unstyled">
+                  <li>Word Count: {{bookmark.article.word_count}}</li>
+                  <li>Published: {{bookmark.article.date_published.strftime('%A %b %d, %Y')}} </li>
+                  <li>Added : {{bookmark.date_updated.strftime('%A %b %d, %Y') }}</li>
+                </ul>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+{% endif %}
+
+
+
+
+
+
+
+
+
 
 <!-- Coursework
 ================================================== -->

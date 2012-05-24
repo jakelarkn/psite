@@ -1,0 +1,4 @@
+Flask
+readability-api
+python-instagram
+httplib2
