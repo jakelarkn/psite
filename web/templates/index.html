@@ -320,7 +320,9 @@
               <td class="span6">
                 <ul class="unstyled">
                   <li>Word Count: {{bookmark.article.word_count}}</li>
+                  {% if bookmark.article.date_published %}
                   <li>Published: {{bookmark.article.date_published.strftime('%A %b %d, %Y')}} </li>
+                  {% endif %}
                   <li>Added : {{bookmark.date_updated.strftime('%A %b %d, %Y') }}</li>
                 </ul>
               </td>
